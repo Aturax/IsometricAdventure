@@ -7489,10 +7489,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 782433215}
-  - component: {fileID: 782433219}
   - component: {fileID: 782433220}
   - component: {fileID: 782433222}
   - component: {fileID: 782433223}
+  - component: {fileID: 782433219}
   - component: {fileID: 782433221}
   m_Layer: 0
   m_Name: Player
@@ -7581,7 +7581,6 @@ MonoBehaviour:
   _jumpHeight: 1
   _hatGravityModifier: 2
   _speedModifier: 1
-  _isHasted: 0
   _animator: {fileID: 1629918311}
 --- !u!114 &782433223
 MonoBehaviour:
