@@ -1,19 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
 
-    [SerializeField] private PlayerController player = null;
-    [SerializeField] private RoomManager roomManager = null;
-    [SerializeField] private Collectable[] collectables;
+    [SerializeField] private PlayerController _player = null;
+    [SerializeField] private RoomManager _roomManager = null;
+    [SerializeField] private Collectable[] _collectables;
 
     private void OnEnable()
     {
-        player.Teleport += Teleport;
+        _player.Teleport += Teleport;
 
-        foreach(Collectable collectable in collectables)
+        foreach(Collectable collectable in _collectables)
         {
             collectable.Pick += PickItem;
         }
@@ -21,9 +19,9 @@ public class GameManager : MonoBehaviour
 
     private void OnDisable()
     {
-        player.Teleport -= Teleport;
+        _player.Teleport -= Teleport;
 
-        foreach (Collectable collectable in collectables)
+        foreach (Collectable collectable in _collectables)
         {
             collectable.Pick -= PickItem;
         }
@@ -31,15 +29,14 @@ public class GameManager : MonoBehaviour
 
     private void Teleport(DoorTrigger doorTrigger)
     {
-        roomManager.LoadRoom(doorTrigger.GetRoomNumber());
-
-        player.TeleportPlayer(doorTrigger.GetEntrancePosition());
+        _roomManager.LoadRoom(doorTrigger.GetRoomNumber());
+        _player.TeleportPlayer(doorTrigger.GetEntrancePosition());
     }
 
     private void PickItem(Item itemType)
     {
-        collectables[(int)itemType].gameObject.SetActive(false);
-        player.PickItem(itemType);
+        _collectables[(int)itemType].gameObject.SetActive(false);
+        _player.PickItem(itemType);
         // TODO send order to UI to show the item collected
     }
 }

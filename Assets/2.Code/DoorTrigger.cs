@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class DoorTrigger : MonoBehaviour
 {
-    [SerializeField] private Transform entrance = null;
-    [SerializeField] private int roomNumber = 0;
+    [SerializeField] private Transform _entrance = null;
+    [SerializeField] private int _roomNumber = 0;
 
     public Vector3 GetEntrancePosition()
     {
-        return entrance.position;
+        return _entrance.position;
     }
 
     public int GetRoomNumber()
     {
-        return roomNumber;
+        return _roomNumber;
     }
 }

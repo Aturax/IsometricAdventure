@@ -5,14 +5,14 @@ using UnityEngine;
 
 public class RoomManager : MonoBehaviour
 {
-    [SerializeField] private List<GameObject> rooms = null;
-    [SerializeField] private int roomIndex = 0;
+    [SerializeField] private List<GameObject> _rooms = null;
+    [SerializeField] private int _roomIndex = 0;
 
     public void LoadRoom(int roomNumber)
     {
-        rooms[roomIndex].SetActive(false);
+        _rooms[_roomIndex].SetActive(false);
 
-        roomIndex = roomNumber;
-        rooms[roomIndex].SetActive(true);
+        _roomIndex = roomNumber;
+        _rooms[_roomIndex].SetActive(true);
     }
 }

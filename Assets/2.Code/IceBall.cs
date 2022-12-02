@@ -1,29 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem.HID;
 
 public class IceBall : MonoBehaviour
 {
 
-    [SerializeField] private float speed = 10.0f;
-    [SerializeField] private float timer = 5.0f;
-    [SerializeField] private float freezerTimer = 3.0f;
+    [SerializeField] private float _speed = 10.0f;
+    [SerializeField] private float _timer = 5.0f;
+    [SerializeField] private float _freezerTimer = 3.0f;
     
     void Update()
     {
-        timer -= Time.deltaTime;
-        if (timer <= 0.0f)
-        {
-            Destroy(gameObject);
-        }
+        _timer -= Time.deltaTime;
+        if (_timer <= 0.0f)
+            Destroy(gameObject);        
 
-        transform.Translate(Vector3.forward * speed * Time.deltaTime);
+        transform.Translate(Vector3.forward * _speed * Time.deltaTime);
     }
 
     public float GetFreezerTimer()
     {
-        return freezerTimer;
+        return _freezerTimer;
     }
 
     public void DestroyBall()

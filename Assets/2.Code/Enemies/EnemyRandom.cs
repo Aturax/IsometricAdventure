@@ -5,52 +5,52 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterController))]
 public class EnemyRandom : MonoBehaviour
 {
-    [SerializeField] private float movementSpeed = 3.0f;
-    [SerializeField] private bool hasTimer = false;
-    [SerializeField] private float changeDirectionTimer = 2.0f;
-    private float timer = 0.0f;
+    [SerializeField] private float _movementSpeed = 3.0f;
+    [SerializeField] private bool _hasTimer = false;
+    [SerializeField] private float _changeDirectionTimer = 2.0f;
+    private float _timer = 0.0f;
 
-    private Vector2 moveDirection = Vector2.zero;
-    private CharacterController characterController = null;
-    private bool freeze = false;
-    private float freezerTimer =0.0f;
+    private Vector2 _moveDirection = Vector2.zero;
+    private CharacterController _characterController = null;
+    private bool _freeze = false;
+    private float _freezerTimer =0.0f;
 
     private void Awake()
     {
-        characterController = GetComponent<CharacterController>();
+        _characterController = GetComponent<CharacterController>();
     }
 
     private void Start()
     {
-        moveDirection = Vector2.left;
+        _moveDirection = Vector2.left;
     }
 
     private void Update()
     {
-        timer -= Time.deltaTime;
-        if (hasTimer && timer <= 0.0f) ChangeDirection();
+        _timer -= Time.deltaTime;
+        if (_hasTimer && _timer <= 0.0f) ChangeDirection();
         
-        if (!freeze) Move();
-        else freezerTimer -= Time.deltaTime;
-        if (freezerTimer < 0.0f) freeze = false;
+        if (!_freeze) Move();
+        else _freezerTimer -= Time.deltaTime;
+        if (_freezerTimer < 0.0f) _freeze = false;
 
-        if (timer < 0.0f) timer = changeDirectionTimer;
+        if (_timer < 0.0f) _timer = _changeDirectionTimer;
     }
 
     private void Move()
     {
-        characterController.Move(new Vector3(moveDirection.x * movementSpeed, 0.0f, moveDirection.y * movementSpeed) * Time.deltaTime);
+        _characterController.Move(new Vector3(_moveDirection.x * _movementSpeed, 0.0f, _moveDirection.y * _movementSpeed) * Time.deltaTime);
 
-        Vector3 lootAt = new Vector3(moveDirection.x, 0.0f, moveDirection.y);
+        Vector3 lootAt = new Vector3(_moveDirection.x, 0.0f, _moveDirection.y);
         transform.rotation = Quaternion.LookRotation(lootAt, Vector3.up);
     }
 
     private void ChangeDirection()
     {
-        moveDirection.x = Random.Range(-1.0f, 1.0f);
-        moveDirection.y = Random.Range(-1.0f, 1.0f);
+        _moveDirection.x = Random.Range(-1.0f, 1.0f);
+        _moveDirection.y = Random.Range(-1.0f, 1.0f);
 
-        moveDirection.Normalize();
+        _moveDirection.Normalize();
     }
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
@@ -60,8 +60,8 @@ public class EnemyRandom : MonoBehaviour
         if (hit.gameObject.CompareTag("IceBall"))
         {
             IceBall ice = hit.gameObject.GetComponent<IceBall>();
-            freezerTimer = ice.GetFreezerTimer();
-            freeze = true;
+            _freezerTimer = ice.GetFreezerTimer();
+            _freeze = true;
             ice.DestroyBall();
         }
     }

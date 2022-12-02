@@ -5,60 +5,60 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterController))]
 public class EnemyPattern : MonoBehaviour
 {
-    [SerializeField] private float movementSpeed = 5.0f;
-    [SerializeField] private Vector2 moveDirection = Vector2.zero;
-    [SerializeField] private List<Transform> waypoints = null;
-    private int indexWaypoint = 1;
-    private CharacterController characterController = null;
+    [SerializeField] private float _movementSpeed = 5.0f;
+    [SerializeField] private Vector2 _moveDirection = Vector2.zero;
+    [SerializeField] private List<Transform> _waypoints = null;
+    private int _indexWaypoint = 1;
+    private CharacterController _characterController = null;
 
-    private bool freeze = false;
-    private float freezerTimer = 0.0f;
+    private bool _freeze = false;
+    private float _freezerTimer = 0.0f;
 
     private void Awake()
     {
-        characterController = GetComponent<CharacterController>();
+        _characterController = GetComponent<CharacterController>();
     }
 
     void Start()
     {
         GameObject go = new GameObject();
         go.transform.position = transform.position;
-        waypoints = new List<Transform>();
-        waypoints.Insert(0, go.transform);
+        _waypoints = new List<Transform>();
+        _waypoints.Insert(0, go.transform);
     }
 
     void Update()
     {
         SetDirectionToWaypoint();
 
-        if (!freeze) Move();
-        else freezerTimer -= Time.deltaTime;
-        if (freezerTimer < 0.0f) freeze = false;
+        if (!_freeze) Move();
+        else _freezerTimer -= Time.deltaTime;
+        if (_freezerTimer < 0.0f) _freeze = false;
     }
 
     private void Move()
     {
-        characterController.Move(new Vector3(moveDirection.x * movementSpeed, 0.0f, moveDirection.y * movementSpeed) * Time.deltaTime);
+        _characterController.Move(new Vector3(_moveDirection.x * _movementSpeed, 0.0f, _moveDirection.y * _movementSpeed) * Time.deltaTime);
 
-        Vector3 lootAt = new Vector3(moveDirection.x, 0.0f, moveDirection.y);
+        Vector3 lootAt = new Vector3(_moveDirection.x, 0.0f, _moveDirection.y);
         transform.rotation = Quaternion.LookRotation(lootAt, Vector3.up);
     }
 
     private void SetDirectionToWaypoint()
     {
-        float x = waypoints[indexWaypoint].position.x - transform.position.x;
-        float z = waypoints[indexWaypoint].position.z - transform.position.z;
+        float x = _waypoints[_indexWaypoint].position.x - transform.position.x;
+        float z = _waypoints[_indexWaypoint].position.z - transform.position.z;
 
-        if (Mathf.Abs(x) > 0.03f) moveDirection = new Vector2(x, 0.0f).normalized;
-        else if (Mathf.Abs(z) > 0.03f) moveDirection = new Vector2(0.0f, z).normalized;
+        if (Mathf.Abs(x) > 0.03f) _moveDirection = new Vector2(x, 0.0f).normalized;
+        else if (Mathf.Abs(z) > 0.03f) _moveDirection = new Vector2(0.0f, z).normalized;
         
         if (Mathf.Abs(x) < 0.03f && Mathf.Abs(z) < 0.03f) SetNewWaypoint();        
     }
 
     private void SetNewWaypoint()
     {
-        if (indexWaypoint < waypoints.Count-1) indexWaypoint++;
-        else indexWaypoint = 0;
+        if (_indexWaypoint < _waypoints.Count-1) _indexWaypoint++;
+        else _indexWaypoint = 0;
 
         SetDirectionToWaypoint();
     }
@@ -68,8 +68,8 @@ public class EnemyPattern : MonoBehaviour
         if (hit.gameObject.CompareTag("IceBall"))
         {
             IceBall ice = hit.gameObject.GetComponent<IceBall>();
-            freezerTimer = ice.GetFreezerTimer();
-            freeze = true;
+            _freezerTimer = ice.GetFreezerTimer();
+            _freeze = true;
             ice.DestroyBall();
         }
     }
